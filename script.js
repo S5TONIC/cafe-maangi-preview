@@ -72,11 +72,16 @@
     }
 
     // the ONLY move: front → back, preview → front. Locked mid-flip.
+    // The outgoing card teleports (transition off) so the wrap-around is
+    // invisible — only the preview glides to front. No snap-back flash.
     function next(){
       if(busy) return;
       busy = true;
+      const out = cards[order[0]];
+      out.style.transition = 'none';
       order.push(order.shift());
       layout();
+      requestAnimationFrame(()=>{ out.style.transition = ''; });
       setTimeout(()=>{ busy = false; }, LOCK);
     }
 
@@ -136,10 +141,28 @@
     stage.addEventListener('pointerup', endDrag);
     stage.addEventListener('pointercancel', endDrag);
 
+    // front + preview load eagerly so the deck never paints half-loaded
+    [cards[0], cards[1]].forEach(c=>{
+      const im = c && c.querySelector('img');
+      if(im){ im.loading = 'eager'; try{ im.fetchPriority = 'high'; }catch(_){} }
+    });
+
     layout();
     startAuto();
     stacks.push({ relayout: layout });
   });
+
+  // warm the HTTP cache for every deck image (idle time) so later flips
+  // pull from cache instead of network — no pop-in mid-cycle
+  function preloadDecks(){
+    document.querySelectorAll('.photo img').forEach(img=>{
+      const pre = new Image();
+      pre.decoding = 'async';
+      pre.src = img.currentSrc || img.src;
+    });
+  }
+  if('requestIdleCallback' in window) requestIdleCallback(preloadDecks, { timeout: 2500 });
+  else setTimeout(preloadDecks, 1500);
 
   // re-fan stacks when rotating / resizing across breakpoints
   let rzT; addEventListener('resize', ()=>{ clearTimeout(rzT); rzT=setTimeout(()=> stacks.forEach(s=>s.relayout && s.relayout()), 200); });
