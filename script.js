@@ -27,17 +27,16 @@
   lb.onclick = (e)=>{ if(e.target===lb) lb.classList.remove('open'); };
   addEventListener('keydown', e=>{ if(e.key==='Escape') lb.classList.remove('open'); });
 
-  // ---- STACK ENGINE (Tinder-style sequential decks) ----
-  // Strictly sequential: EVERYTHING (autoplay tick, tap, swipe any direction)
-  // advances exactly one card forward — 1→2→3→…→1, forever. No jumping,
-  // no counters, no arrows, no dots. Each deck owns its state and timer.
+  // ---- STACK ENGINE (Tinder-style sequential decks, manual only) ----
+  // Strictly sequential: tap or swipe (any direction) advances exactly one
+  // card forward — 1→2→3→…→1, forever. No autoplay, no jumping, no counters,
+  // no arrows, no dots. Each deck owns its state.
   const stacks = [];
   document.querySelectorAll('[data-stack]').forEach(root=>{
     const stage = root.querySelector('.stack');
     const cards = [...stage.querySelectorAll('.photo')];
     let order = cards.map((_,i)=>i); // order[0]=front, order[1]=preview
-    let timer = null, hoverHold = false, busy = false, dragging = false;
-    const delay = Number(stage.dataset.autoplay || 3000);
+    let busy = false, dragging = false;
     const LOCK = 700; // matches .65s CSS transition — one flip at a time
 
     function layout(){
@@ -85,13 +84,6 @@
       setTimeout(()=>{ busy = false; }, LOCK);
     }
 
-    function startAuto(){
-      if(timer) return;
-      timer = setInterval(()=>{
-        if(!hoverHold && !dragging && !document.hidden) next();
-      }, delay);
-    }
-
     // tap = flip one forward · double-tap = fullscreen preview
     let clickT = null;
     // dragMoved is declared below (let); this handler only runs on user
@@ -107,10 +99,6 @@
       lbCap.textContent = fig.dataset.caption || '';
       lb.classList.add('open');
     }
-
-    // hover-hold pauses THIS deck's loop only (desktop)
-    stage.addEventListener('mouseenter', ()=> hoverHold = true);
-    stage.addEventListener('mouseleave', ()=> hoverHold = false);
 
     // Tinder-style swipe: a flick in ANY direction dismisses the top card
     // and reveals the next one — always sequentially forward.
@@ -148,7 +136,6 @@
     });
 
     layout();
-    startAuto();
     stacks.push({ relayout: layout });
   });
 
