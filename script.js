@@ -186,4 +186,25 @@
     });
   },{rootMargin:'-30% 0px -60% 0px'});
   document.querySelectorAll('[data-stack]').forEach(el=>chipSpy.observe(el));
+
+  // ---- MOBILE HERO REEL: direction-locked drag-to-scroll ----
+  // touch-action:pan-y keeps vertical page scroll native; horizontal drags
+  // are converted to scrollLeft manually so one axis always wins — no fight
+  // between the swipe and the page scroll.
+  const reel = document.querySelector('.mobile-reel-track');
+  if(reel){
+    let rDown = false, rLocked = false, rX = 0, rLeft = 0;
+    reel.addEventListener('pointerdown', e=>{
+      rDown = true; rLocked = false; rX = e.clientX; rLeft = reel.scrollLeft;
+    });
+    reel.addEventListener('pointermove', e=>{
+      if(!rDown) return;
+      const dx = e.clientX - rX;
+      if(!rLocked && Math.abs(dx) > 10){ rLocked = true; reel.classList.add('dragging'); }
+      if(rLocked) reel.scrollLeft = rLeft - dx;
+    });
+    const rEnd = ()=>{ rDown = false; rLocked = false; reel.classList.remove('dragging'); };
+    reel.addEventListener('pointerup', rEnd);
+    reel.addEventListener('pointercancel', rEnd);
+  }
 })();

@@ -228,7 +228,10 @@ img{display:block;max-width:100%}
   .mobile-reel-label{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
     opacity:.7;padding:0 1rem;margin-bottom:.5rem}
   .mobile-reel-track{display:flex;gap:.7rem;overflow-x:auto;scroll-snap-type:x mandatory;
-    padding:0 1rem 1rem}
+    padding:0 1rem 1rem;touch-action:pan-y;cursor:grab;scrollbar-width:none;user-select:none;-webkit-user-select:none}
+  .mobile-reel-track::-webkit-scrollbar{display:none}
+  .mobile-reel-track.dragging{scroll-snap-type:none;cursor:grabbing}
+  .mobile-reel-track img{pointer-events:none}
   .mobile-reel-track figure{flex:0 0 132px;scroll-snap-align:start;border-radius:16px;overflow:hidden;
     position:relative;border:3px solid var(--cream);box-shadow:0 10px 25px rgba(0,0,0,.35)}
   .mobile-reel-track img{width:132px;height:178px;object-fit:cover}
