@@ -78,16 +78,10 @@ img{display:block;max-width:100%}
   linear-gradient(180deg, rgba(42,30,20,.55), rgba(42,30,20,.25) 45%, rgba(42,30,20,.88)),
   linear-gradient(90deg, rgba(62,74,46,.35), transparent)}
 .hero-inner{position:relative;z-index:2;max-width:640px}
-.pill{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;font-size:.82rem;font-weight:600;letter-spacing:.02em;
-  background:rgba(250,245,236,.14);border:1px solid rgba(250,245,236,.3);backdrop-filter:blur(8px);margin-bottom:1.2rem}
 .hero h1{color:var(--cream);text-wrap:balance}
 .hero h1 em{color:var(--cream-3)}
 .hero-sub{margin:1.2rem 0 1.8rem;font-size:1.08rem;opacity:.9;max-width:32rem}
 .hero-cta{display:flex;gap:.8rem;flex-wrap:wrap}
-.hero-meta{display:flex;gap:2rem;margin-top:2.2rem;flex-wrap:wrap}
-.hero-meta div{display:flex;flex-direction:column}
-.hero-meta strong{font-family:'Fraunces';font-size:1.5rem;color:var(--caramel)}
-.hero-meta span{font-size:.85rem;opacity:.75}
 .hero-card{position:relative;z-index:2;background:var(--cream);color:var(--espresso);border-radius:var(--radius);
   overflow:hidden;box-shadow:var(--shadow);max-width:380px;justify-self:end;width:100%;
   transform:rotate(2deg);transition:.5s var(--ease)}
@@ -217,18 +211,13 @@ img{display:block;max-width:100%}
   .hero h1{font-size:clamp(2.6rem,13vw,3.6rem)}
   .hero-sub{font-size:.98rem;margin:.9rem 0 1.2rem}
   .hero-cta .btn{flex:1 1 auto;padding:.9rem 1rem;font-size:.9rem}
-  .hero-meta{display:flex;flex-wrap:nowrap;gap:.7rem;margin-top:1.4rem;
-    overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.4rem;margin-inline:-1rem;padding-inline:1rem}
-  .hero-meta div{flex:0 0 auto;scroll-snap-align:start;background:rgba(250,245,236,.12);
-    border:1px solid rgba(250,245,236,.25);border-radius:16px;padding:.6rem .9rem;min-width:128px}
-  .hero-meta strong{font-size:1.2rem}
-  /* hide desktop tilted card, show reel strip instead */
+  /* hide desktop tilted card, show reel strip instead — fitted inside hero frame */
   .hero-card{display:none}
-  .mobile-reel{display:block;position:relative;z-index:2;margin-inline:-1rem}
+  .mobile-reel{display:block;position:relative;z-index:2}
   .mobile-reel-label{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
-    opacity:.7;padding:0 1rem;margin-bottom:.5rem}
+    opacity:.7;margin-bottom:.5rem}
   .mobile-reel-track{display:flex;gap:.7rem;overflow-x:auto;scroll-snap-type:x mandatory;
-    padding:0 1rem 1rem;touch-action:pan-y;cursor:grab;scrollbar-width:none;user-select:none;-webkit-user-select:none}
+    padding:0 0 .5rem;touch-action:pan-y;cursor:grab;scrollbar-width:none;user-select:none;-webkit-user-select:none}
   .mobile-reel-track::-webkit-scrollbar{display:none}
   .mobile-reel-track.dragging{scroll-snap-type:none;cursor:grabbing}
   .mobile-reel-track img{pointer-events:none}
