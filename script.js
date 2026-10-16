@@ -27,10 +27,10 @@
   lb.onclick = (e)=>{ if(e.target===lb) lb.classList.remove('open'); };
   addEventListener('keydown', e=>{ if(e.key==='Escape') lb.classList.remove('open'); });
 
-  // ---- STACK ENGINE (Tinder-style sequential decks, manual only) ----
-  // Strictly sequential: tap or swipe (any direction) advances exactly one
-  // card forward — 1→2→3→…→1, forever. No autoplay, no jumping, no counters,
-  // no arrows, no dots. Each deck owns its state.
+  // ---- STACK ENGINE (Tinder-style sequential decks, swipe only) ----
+  // Strictly sequential: a swipe in any direction advances exactly one
+  // card forward — 1→2→3→…→1, forever. Taps never flip. No autoplay,
+  // no jumping, no counters, no arrows, no dots. Each deck owns its state.
   const stacks = [];
   document.querySelectorAll('[data-stack]').forEach(root=>{
     const stage = root.querySelector('.stack');
@@ -84,14 +84,14 @@
       setTimeout(()=>{ busy = false; }, LOCK);
     }
 
-    // tap = flip one forward · double-tap = fullscreen preview
+    // taps never flip the deck — double-tap opens fullscreen preview
     let clickT = null;
     // dragMoved is declared below (let); this handler only runs on user
     // events after init, so the closure reference is safe.
     stage.addEventListener('click', ()=>{
       if(dragMoved) return;
       if(clickT){ clearTimeout(clickT); clickT = null; openLB(cards[order[0]]); }
-      else clickT = setTimeout(()=>{ clickT = null; next(); }, 260);
+      else clickT = setTimeout(()=>{ clickT = null; }, 260);
     });
 
     function openLB(fig){
